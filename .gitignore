@@ -13,4 +13,5 @@ Release/
 *.vsidx
 .vsix
 .ipch/
-FileContentIndex/
+FileContentInde/
+*.filters
