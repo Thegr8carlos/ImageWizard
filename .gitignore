@@ -9,4 +9,8 @@
 x64/
 Debug/
 Release/
-
+.vs/
+*.vsidx
+.vsix
+.ipch/
+FileContentIndex/
