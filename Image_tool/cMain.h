@@ -1,13 +1,20 @@
 #pragma once
 #include "wx/wx.h"
-class cMain : public wxFrame
+class cMain : public wxMDIParentFrame
 {
 public:
-	cMain();
+	cMain(); // all the init of the GUI happens here...
 	~cMain();
-public: // aall the instances of the main window
-	wxButton* bttn1 = nullptr;
-	wxTextCtrl* txt1 = nullptr;
-	wxListBox* list1 =  nullptr;
+private:
+	wxToolBar* toolBar = nullptr; // not yet...
+	wxMenuBar* menuBar = nullptr; // Implemented
+
+	//void InMenuNew(wxCommandEvent& event);
+	//void InMenuOpen(wxCommandEvent& event);
+	//void InMenuSave(wxCommandEvent& event); handle events functions
+	//void InMenuExit(wxCommandEvent& event);
+
+	//wxDECLARE_EVENT_TABLE();
 };
+
 
