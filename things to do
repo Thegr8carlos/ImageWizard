@@ -1,0 +1,4 @@
+# Things to do.
+- Implementar leer imagenes(cualquier formato) usando opencv? o buscar alguna manera de aceptar cualquier formato
+- implementar la logica para getActivechild en wxwidgets y asi se apliquen las funciones a imagenes
+- como implementar para mosstrar las imagenes en cada nueva ventana 
