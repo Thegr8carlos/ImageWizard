@@ -6,14 +6,15 @@ public:
 	cMain(); // all the init of the GUI happens here...
 	~cMain();
 private:
-	wxToolBar* toolBar = nullptr; // not yet...
+	wxToolBar* toolBar = nullptr; // Implemented
 	wxMenuBar* menuBar = nullptr; // Implemented
 
-	void InMenuNew(wxCommandEvent& event);
-	void InMenuOpen(wxCommandEvent& event);
-	void InMenuSave(wxCommandEvent& event); 
-	void InMenuExit(wxCommandEvent& event);
 
+	// Manejo de los eventos-----------------
+	void InMenuOpenNew(wxCommandEvent& event);//
+	void InMenuSave(wxCommandEvent& event);// 
+	void InMenuExit(wxCommandEvent& event);//
+	// ------------------------------------
 	wxDECLARE_EVENT_TABLE();
 };
 

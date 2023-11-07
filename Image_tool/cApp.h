@@ -11,11 +11,9 @@ class cApp : public wxApp
 private:
 	cMain* m_frame1 = nullptr; // initial frame wich is null at the initial state of the application 
 
-public:
-	cApp();
-	~cApp();
-
 public: 
+	cApp(); // class constructor 
+	~cApp(); // class deconstructor 
 	virtual bool OnInit(); // Initializer of the window application 
 };
 

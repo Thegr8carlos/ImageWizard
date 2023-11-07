@@ -4,8 +4,7 @@
 
 wxBEGIN_EVENT_TABLE(cMain, wxMDIParentFrame)
 // handle the event in the menu when is click (ID of the menuElement and the funciton to call in that event)
-EVT_MENU(1001, cMain::InMenuNew) 
-EVT_MENU(1002, cMain::InMenuOpen)
+EVT_MENU(1001, cMain::InMenuOpenNew)
 EVT_MENU(1003, cMain::InMenuSave)
 EVT_MENU(1004, cMain::InMenuExit)
 wxEND_EVENT_TABLE()
@@ -18,8 +17,7 @@ cMain::cMain() : wxMDIParentFrame(nullptr, wxID_ANY, "Image Wizard", wxPoint(30,
 	this->SetMenuBar(menuBar);
 	// adding sub-menus for the file menu [1001],[1002],[1003],[1004]
 	wxMenu* menuFile = new wxMenu();
-	menuFile->Append(1001, "New");
-	menuFile->Append(1002, "Open");
+	menuFile->Append(1001, "OpenNew");
 	menuFile->Append(1003, "Save");
 	menuFile->Append(1004, "Exit");
 	// ading the menu for the instance of the menuBar [ File[ New[1001], Open[1002], Save[1003], Exit[1004] ] ]
@@ -32,7 +30,7 @@ cMain::cMain() : wxMDIParentFrame(nullptr, wxID_ANY, "Image Wizard", wxPoint(30,
 	menuBf->Append(2004, "Bf4");
 	menuBar->Append(menuBf, "Basic filters");
 
-	// Toolbar
+	/*/ Toolbar
 	toolBar = this->CreateToolBar(wxTB_HORIZONTAL, wxID_ANY);
 
 	wxColour colors[16];
@@ -63,21 +61,32 @@ cMain::cMain() : wxMDIParentFrame(nullptr, wxID_ANY, "Image Wizard", wxPoint(30,
 	wxButton* b = new wxButton(toolBar, 10100 + 16, "ALPHA", wxDefaultPosition, wxSize(40, 24), 0);
 	toolBar->AddControl(b);
 	toolBar->Realize();
+	/*/
 }
 
 cMain:: ~cMain()
 {
 }
 
-void cMain::InMenuNew(wxCommandEvent& event) // event to create a new window (wxMDIChildFrame)
+void cMain::InMenuOpenNew(wxCommandEvent& event) // event to create a new window (wxMDIChildFrame)
 {
-	cEditorFrame* window = new cEditorFrame(this, "son");
-	window->Show();
-	event.Skip();
-}
+	// Deberia crear una v
+	wxBitmap bitmap;
 
-void cMain::InMenuOpen(wxCommandEvent& event)
-{
+	wxString filename = wxFileSelector(_T("Select file"), _T(""), _T(""), _T(""), _T("All files (*.*)|*.*"));
+	if (!filename.empty())
+	{
+		cEditorFrame* window = new cEditorFrame(this, filename);
+		window->Show();
+		event.Skip();
+	}
+	else
+	{
+		wxMessageBox("Error loading the image", "Image Wizard", wxOK | wxICON_INFORMATION);
+	}
+
+		
+	
 }
 
 void cMain::InMenuSave(wxCommandEvent& event)

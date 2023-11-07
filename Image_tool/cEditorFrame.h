@@ -5,7 +5,7 @@
 class cEditorFrame : public wxMDIChildFrame
 {
 public: 
-	cEditorFrame(wxMDIParentFrame* parent, wxString wName);
+	cEditorFrame(wxMDIParentFrame* parent, wxString FileName);
 	~cEditorFrame();
 private:
 	cCanvas* n_canvas = nullptr; // canvas for edit the sprite
