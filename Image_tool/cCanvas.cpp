@@ -30,9 +30,9 @@ void cCanvas::OnPaint(wxPaintEvent& event) // pre painting, the paint handle eve
 	this->OnDraw(dc);
 }
 
-void cCanvas::OnDraw(wxDC& dc) // actually painting...
+void cCanvas::OnDraw(wxDC& dc) // Arregla esta problematica para dibujar la imagen 
 { 	
-		/*
+		
 	dc.Clear();
 	wxBrush brush = dc.GetBrush();
 	wxPen pen = dc.GetPen();
@@ -55,17 +55,7 @@ void cCanvas::OnDraw(wxDC& dc) // actually painting...
 	// Dibuja el texto en el contexto del dispositivo
 	wxString message = wxT("Imagen cargada\nTamaño: ") + wxString::Format(wxT("%d x %d"), m_imageWidth, m_imageHeight);
 	dc.DrawText(message, 30, 30); // Coordenadas (x, y) donde 
-	*/
-	wxImage* tempImage;  // the bridge between my image buffer and the bitmap to display
-	wxPaintDC dc(this);
-
-	if (m_myImage)
-	{
-		tempImage = new wxImage(m_imageWidth, m_imageHeight, m_myImage, true); // lend my image buffer...
-		m_imageBitmap = wxBitmap(*tempImage, -1); // ...to get the corresponding bitmap
-		delete(tempImage);		// buffer not needed any more
-		dc.DrawBitmap(m_imageBitmap, 0, 0);
-	}
+	
 
 }
 void cCanvas::LoadImage()
