@@ -1,5 +1,6 @@
 #include "cCanvas.h"
 #include <string>
+#include <fstream>
 wxBEGIN_EVENT_TABLE(cCanvas, wxHVScrolledWindow)
 EVT_PAINT(cCanvas::OnPaint)
 wxEND_EVENT_TABLE()
@@ -37,15 +38,8 @@ void cCanvas::OnDraw(wxDC& dc) // Arregla esta problematica para dibujar la imag
 	wxBrush brush = dc.GetBrush();
 	wxPen pen = dc.GetPen();
 
-	wxPosition s = GetVisibleBegin();
-	wxPosition e = GetVisibleEnd(); // ya tienes la imagen , trata ya de mostrarla.
-
-	pen.SetStyle(wxPENSTYLE_LONG_DASH);
-	pen.SetColour(wxColour(200, 200, 200));
-	dc.SetPen(pen);
-
+	
 	dc.SetBrush(brush);
-	dc.DrawRectangle(20, 20, 200, 200);
 	wxColour text_color(0, 0, 0); // Color del texto (negro en este caso)
 	wxFont text_font(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 	text_font.SetFaceName(wxT("Arial")); // Cambia la fuente según tus preferencias
@@ -53,10 +47,40 @@ void cCanvas::OnDraw(wxDC& dc) // Arregla esta problematica para dibujar la imag
 	dc.SetFont(text_font);
 
 	// Dibuja el texto en el contexto del dispositivo
-	wxString message = wxT("Imagen cargada\nTamaño: ") + wxString::Format(wxT("%d x %d"), m_imageWidth, m_imageHeight);
-	dc.DrawText(message, 30, 30); // Coordenadas (x, y) donde 
-	
+	wxString message1 = wxT("Tamaño: ") + wxString::Format(wxT("%d x %d"), m_imageWidth, m_imageHeight);
+	dc.DrawText(message1, this->m_imageWidth+30, 30); // Coordenadas (x, y) donde 
+	wxString message2 = wxT("formato: ") + this->getformat();
+	dc.DrawText(message2, this->m_imageWidth + 30, 50); // Coordenadas (x, y) donde 
+	dc.DrawBitmap(this->m_imageBitmap, 0, 0);
 
+}
+wxString cCanvas::getformat()
+{
+	for (int i = 0; i < this->m_imageHeight; i++)
+	{
+		for (int j = 0; j < this->m_imageWidth; j++)
+		{
+			int offset = (i * this->m_imageWidth + j) * 3; // 3 canales (RGB)
+			unsigned char red = this->m_myImage[offset] - 0;
+			unsigned char green = this->m_myImage[offset + 1]- 0;
+			unsigned char blue = this->m_myImage[offset + 2] - 0;
+			//ofs << "[" << red + ","<< green << "," << blue << "]";
+			if (red != green || green != blue)
+			{
+				if (this->m_imageRGB->HasAlpha())
+				{
+					return (wxString)"RGBA";
+				}
+				else
+				{
+					return (wxString)"RGB";
+				}
+			}
+		}
+	}
+	return (wxString)"GRAY";
+
+	
 }
 void cCanvas::LoadImage()
 {
@@ -81,6 +105,8 @@ void cCanvas::LoadImage()
 		return;
 	}
 	// update display
+	//this->getformat();
+	this->SetSize(m_imageWidth+30, m_imageHeight+30);
 	Refresh(false);
 }
 wxCoord cCanvas::OnGetRowHeight(size_t row) const

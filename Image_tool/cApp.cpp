@@ -1,8 +1,8 @@
-// Entry point for our program, this is the main for wxWidgets
+// Entry point of the app
 
 #include "cApp.h"
 
-#define APP_NAME "Image Wizard"
+#define APP_NAME "Image Wizard" // defining the app name
 
 
 
@@ -16,10 +16,10 @@ cApp::~cApp()
 {
 }
 
-bool cApp::OnInit() // Init
+bool cApp::OnInit() // Init of the app,,,, like the main in c
 {
 	wxInitAllImageHandlers(); // To suport all the image files
-	m_frame1 = new cMain(); // Creating a new instance of a wx frame (the main window)
+	m_frame1 = new cMain(); // Creating a new instance of a wx MDI parent to suport multiple window handle (the main window)
 	m_frame1->Show(); // window show
 	return true;
 }
