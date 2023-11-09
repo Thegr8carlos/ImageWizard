@@ -40,6 +40,15 @@ void cCanvas::OnDraw(wxDC& dc) // Arregla esta problematica para dibujar la imag
 
 	
 	dc.SetBrush(brush);
+	wxImage* tempImage;
+	if (this->m_myImage)
+	{
+		tempImage = new wxImage(m_imageWidth, m_imageHeight, m_myImage, true); // lend my image buffer...
+		m_imageBitmap = wxBitmap(*tempImage, -1); // ...to get the corresponding bitmap
+		delete(tempImage);		// buffer not needed any more
+		dc.DrawBitmap(this->m_imageBitmap, 0, 0);
+	}
+	/*
 	wxColour text_color(0, 0, 0); // Color del texto (negro en este caso)
 	wxFont text_font(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 	text_font.SetFaceName(wxT("Arial")); // Cambia la fuente según tus preferencias
@@ -51,8 +60,10 @@ void cCanvas::OnDraw(wxDC& dc) // Arregla esta problematica para dibujar la imag
 	dc.DrawText(message1, this->m_imageWidth+30, 30); // Coordenadas (x, y) donde 
 	wxString message2 = wxT("formato: ") + this->getformat();
 	dc.DrawText(message2, this->m_imageWidth + 30, 50); // Coordenadas (x, y) donde 
-	dc.DrawBitmap(this->m_imageBitmap, 0, 0);
-
+	*/
+	
+	//dc.DrawBitmap(this->m_imageBitmap, 0, 0);
+		
 }
 wxString cCanvas::getformat()
 {
@@ -100,13 +111,15 @@ void cCanvas::LoadImage()
 	memcpy(m_myImage, m_imageRGB->GetData(), m_imageWidth * m_imageHeight * 3);
 	if (this->m_myImage == nullptr)
 	{
-		wxString message = wxT("Imagen cargada\nTamaño: ") + wxString::Format(wxT("%d x %d"), m_imageWidth, m_imageHeight);
+		wxString message = wxT("Image carge failed") + wxString::Format(wxT("%d x %d"), m_imageWidth, m_imageHeight);
 		wxMessageBox(message);
 		return;
 	}
 	// update display
 	//this->getformat();
-	this->SetSize(m_imageWidth+30, m_imageHeight+30);
+	// agregar aqui para probar un filtro en la imagen para probar como se obtienen los valores 
+
+	this->SetSize(m_imageHeight, m_imageWidth);
 	Refresh(false);
 }
 wxCoord cCanvas::OnGetRowHeight(size_t row) const
