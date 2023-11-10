@@ -10,7 +10,7 @@ private:
 	wxMenuBar* menuBar = nullptr; // Implemented
 
 	// Testing image processing
-	void OnGrayEvent(wxCommandEvent& event);
+	void ToGray(wxCommandEvent& event);
 
 	// Manejo de los eventos-----------------
 	void InMenuOpenNew(wxCommandEvent& event);//

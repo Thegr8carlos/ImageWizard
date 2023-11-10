@@ -33,7 +33,7 @@ public:
 	void LoadImage(); // for load the image and set m_imageHeight , m_imageWidth, m_imageBitmap, m_imageRGB, m_myImage //
 	void OnPaint(wxPaintEvent& event); // for init the draw context                                                    //
 	void OnDraw(wxDC& dc); // actually drawing  
-	unsigned char* grayTest();// return the gray format of the image
+	unsigned char* ToGray();// return the gray format of the image
 	wxString getformat(); // returns the format of the image                                                           //
 	//-------------------------------------------------------------------------------------------------------------------
 	

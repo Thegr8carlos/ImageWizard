@@ -7,7 +7,7 @@ wxBEGIN_EVENT_TABLE(cMain, wxMDIParentFrame)
 EVT_MENU(1001, cMain::InMenuOpenNew)
 EVT_MENU(1003, cMain::InMenuSave)
 EVT_MENU(1004, cMain::InMenuExit)
-EVT_MENU(2001, cMain::OnGrayEvent)
+EVT_MENU(2001, cMain::ToGray)
 wxEND_EVENT_TABLE()
 
 // The parent of all the components is wxMDIParentFrame
@@ -25,11 +25,11 @@ cMain::cMain() : wxMDIParentFrame(nullptr, wxID_ANY, "Image Wizard", wxPoint(30,
 	menuBar->Append(menuFile, "File");
 	// you got the idea...
 	wxMenu* menuBf = new wxMenu();
-	menuBf->Append(2001, "Bf1");
+	menuBf->Append(2001, "ToGray");
 	menuBf->Append(2002, "Bf2");
 	menuBf->Append(2003, "Bf3");
 	menuBf->Append(2004, "Bf4");
-	menuBar->Append(menuBf, "Basic filters");
+	menuBar->Append(menuBf, " Convert ");
 
 	/*/ Toolbar
 	toolBar = this->CreateToolBar(wxTB_HORIZONTAL, wxID_ANY);
@@ -69,7 +69,7 @@ cMain:: ~cMain()
 {
 }
 
-void cMain::OnGrayEvent(wxCommandEvent& event) // testing...
+void cMain::ToGray(wxCommandEvent& event) // testing...
 {
 	wxMDIChildFrame* child = this->GetActiveChild();
 	if (child == nullptr)
@@ -79,7 +79,7 @@ void cMain::OnGrayEvent(wxCommandEvent& event) // testing...
 		return;
 	}
 	cEditorFrame* mychild = wxDynamicCast(child, cEditorFrame);
-	unsigned char* temp = mychild->getCanvas()->grayTest();
+	unsigned char* temp = mychild->getCanvas()->ToGray();
 	if (!temp)
 	{
 		wxMessageBox(wxT("Error loading the image... im sorry :("));

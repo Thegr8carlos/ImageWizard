@@ -75,7 +75,7 @@ void cCanvas::OnDraw(wxDC& dc) // Arregla esta problematica para dibujar la imag
 	}
 		
 }
-unsigned char* cCanvas::grayTest() // testing...
+unsigned char* cCanvas::ToGray() // testing...
 {
 	// generar un buffer que guarda los nuevos valores, y retornar eso, para asi crear una nueva ventana
 	
