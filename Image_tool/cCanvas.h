@@ -10,8 +10,12 @@ class cCanvas : public wxHVScrolledWindow
 {
 public: 
 	cCanvas(wxWindow* parent, wxString filename);
+	cCanvas(wxWindow* parent, unsigned char* data, int w, int h);
+	int getWidth();
+	int getHeight();
 	~cCanvas();
-	wxString FileName; // file name of the image
+	wxString fileName; // file name of the image
+	wxString fileFormat; // format of the file 
 
 private: 
 	int m_nPixelSize = 8; // for the slider
@@ -28,7 +32,8 @@ public:
 
 	void LoadImage(); // for load the image and set m_imageHeight , m_imageWidth, m_imageBitmap, m_imageRGB, m_myImage //
 	void OnPaint(wxPaintEvent& event); // for init the draw context                                                    //
-	void OnDraw(wxDC& dc); // actually drawing                                                                         //
+	void OnDraw(wxDC& dc); // actually drawing  
+	unsigned char* grayTest();// return the gray format of the image
 	wxString getformat(); // returns the format of the image                                                           //
 	//-------------------------------------------------------------------------------------------------------------------
 	

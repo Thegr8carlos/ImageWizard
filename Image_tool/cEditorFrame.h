@@ -6,7 +6,9 @@ class cEditorFrame : public wxMDIChildFrame
 {
 public: 
 	cEditorFrame(wxMDIParentFrame* parent, wxString FileName);
+	cEditorFrame(wxMDIParentFrame* parent, unsigned char* data, wxString prevFile, int w, int h);
 	~cEditorFrame();
+	cCanvas* getCanvas();
 private:
 	cCanvas* n_canvas = nullptr; // canvas to show the image
 

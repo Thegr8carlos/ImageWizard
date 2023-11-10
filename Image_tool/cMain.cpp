@@ -7,6 +7,7 @@ wxBEGIN_EVENT_TABLE(cMain, wxMDIParentFrame)
 EVT_MENU(1001, cMain::InMenuOpenNew)
 EVT_MENU(1003, cMain::InMenuSave)
 EVT_MENU(1004, cMain::InMenuExit)
+EVT_MENU(2001, cMain::OnGrayEvent)
 wxEND_EVENT_TABLE()
 
 // The parent of all the components is wxMDIParentFrame
@@ -66,6 +67,29 @@ cMain::cMain() : wxMDIParentFrame(nullptr, wxID_ANY, "Image Wizard", wxPoint(30,
 
 cMain:: ~cMain()
 {
+}
+
+void cMain::OnGrayEvent(wxCommandEvent& event) // testing...
+{
+	wxMDIChildFrame* child = this->GetActiveChild();
+	if (child == nullptr)
+	{
+		wxMessageBox(wxT("You must open an image to conver to gray"));
+		event.Skip();
+		return;
+	}
+	cEditorFrame* mychild = wxDynamicCast(child, cEditorFrame);
+	unsigned char* temp = mychild->getCanvas()->grayTest();
+	if (!temp)
+	{
+		wxMessageBox(wxT("Error loading the image... im sorry :("));
+		event.Skip();
+		return;
+	}
+	cEditorFrame* process = new cEditorFrame(this, temp,mychild->GetName(), mychild->getCanvas()->getWidth(), mychild->getCanvas()->getHeight());
+	process->Show();
+	// nuevo constructor dado un unsigned char
+	event.Skip();
 }
 
 void cMain::InMenuOpenNew(wxCommandEvent& event) // event to create a new window (wxMDIChildFrame)

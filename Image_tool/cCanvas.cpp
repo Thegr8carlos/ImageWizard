@@ -9,7 +9,27 @@ cCanvas::cCanvas(wxWindow* parent, wxString filename) : wxHVScrolledWindow(paren
 {
 	SetRowColumnCount(40, 40); // see the changes if change that values
 	SetBackgroundStyle(wxBG_STYLE_PAINT);
-	this->FileName = filename;
+	this->fileName = filename;
+}
+
+cCanvas::cCanvas(wxWindow* parent, unsigned char* data, int w, int h) : wxHVScrolledWindow(parent, wxID_ANY)
+{
+	SetRowColumnCount(40, 40); // see the changes if change that values
+	SetBackgroundStyle(wxBG_STYLE_PAINT);
+	this->m_myImage = data;
+	this->m_imageWidth = w;
+	this->m_imageHeight = h;
+	this->m_imageRGB = new wxImage(this->m_imageWidth, this->m_imageHeight, this->m_myImage, true);
+}
+
+int cCanvas::getWidth()
+{
+	return this->m_imageWidth;
+}
+
+int cCanvas::getHeight()
+{
+	return this->m_imageHeight;
 }
 
 cCanvas::~cCanvas()
@@ -41,6 +61,7 @@ void cCanvas::OnDraw(wxDC& dc) // Arregla esta problematica para dibujar la imag
 	
 	dc.SetBrush(brush);
 	wxImage* tempImage;
+	
 	if (this->m_myImage)
 	{
 		tempImage = new wxImage(m_imageWidth, m_imageHeight, m_myImage, true); // lend my image buffer...
@@ -48,22 +69,50 @@ void cCanvas::OnDraw(wxDC& dc) // Arregla esta problematica para dibujar la imag
 		delete(tempImage);		// buffer not needed any more
 		dc.DrawBitmap(this->m_imageBitmap, 0, 0);
 	}
-	/*
-	wxColour text_color(0, 0, 0); // Color del texto (negro en este caso)
-	wxFont text_font(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-	text_font.SetFaceName(wxT("Arial")); // Cambia la fuente según tus preferencias
-	dc.SetTextForeground(text_color);
-	dc.SetFont(text_font);
-
-	// Dibuja el texto en el contexto del dispositivo
-	wxString message1 = wxT("Tamaño: ") + wxString::Format(wxT("%d x %d"), m_imageWidth, m_imageHeight);
-	dc.DrawText(message1, this->m_imageWidth+30, 30); // Coordenadas (x, y) donde 
-	wxString message2 = wxT("formato: ") + this->getformat();
-	dc.DrawText(message2, this->m_imageWidth + 30, 50); // Coordenadas (x, y) donde 
-	*/
-	
-	//dc.DrawBitmap(this->m_imageBitmap, 0, 0);
+	else
+	{
+		wxMessageBox(wxT("Error en la carga de imagen "));
+	}
 		
+}
+unsigned char* cCanvas::grayTest() // testing...
+{
+	// generar un buffer que guarda los nuevos valores, y retornar eso, para asi crear una nueva ventana
+	
+	if (this->getformat() == (wxString)"RGB")
+	{
+		wxMessageBox(wxT("RGB to gray"));
+		unsigned char* temp = (unsigned char*)malloc(m_imageWidth * m_imageHeight * 3);
+		int long pixels = m_imageHeight * m_imageWidth;
+		for (int i = 0; i < pixels; ++i)
+		{
+			unsigned char red = this->m_myImage[i * 3];
+			unsigned char green = this->m_myImage[i * 3 + 1];
+			unsigned char blue = this->m_myImage[i * 3 + 2];
+			unsigned char gray = (unsigned char)(0.299 * red + 0.587 * green + 0.114 * blue);
+			temp[i * 3] = gray;
+			temp[i * 3 + 1] = gray;
+			temp[i * 3 + 2] = gray;
+		}
+		return temp;
+		
+	}
+	else if (this->getformat() == (wxString)"RGBA")
+	{
+		//wxMessageBox(wxT("RGBA to gray"));
+		return this->m_myImage;
+	}
+	else if (this->getformat() == (wxString)"GRAY")
+	{
+		//wxMessageBox(wxT("Already Gray"));
+		return nullptr;
+	}
+	else
+	{
+		//wxMessageBox(wxT("Not implemented..."));
+		return nullptr;
+	}
+	
 }
 wxString cCanvas::getformat()
 {
@@ -101,7 +150,7 @@ void cCanvas::LoadImage()
 		delete m_imageRGB;
 
 	// open image dialog box
-	m_imageRGB = new wxImage(this->FileName, wxBITMAP_TYPE_ANY, -1); // ANY => can load many image formats
+	m_imageRGB = new wxImage(this->fileName, wxBITMAP_TYPE_ANY, -1); // ANY => can load many image formats
 	m_imageBitmap = wxBitmap(*m_imageRGB, -1); // ...to get the corresponding bitmap
 
 	m_imageWidth = m_imageRGB->GetWidth();
