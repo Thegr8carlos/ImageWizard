@@ -4,7 +4,7 @@
 
 #define APP_NAME "Image Wizard" // defining the app name
 
-
+// Implemented... there is no more to add in this part
 
 wxIMPLEMENT_APP(cApp); 
 

@@ -10,6 +10,7 @@ cCanvas::cCanvas(wxWindow* parent, wxString filename) : wxHVScrolledWindow(paren
 	SetRowColumnCount(40, 40); // see the changes if change that values
 	SetBackgroundStyle(wxBG_STYLE_PAINT);
 	this->fileName = filename;
+	this->img_load = true;
 }
 
 cCanvas::cCanvas(wxWindow* parent, unsigned char* data, int w, int h) : wxHVScrolledWindow(parent, wxID_ANY)
@@ -20,6 +21,7 @@ cCanvas::cCanvas(wxWindow* parent, unsigned char* data, int w, int h) : wxHVScro
 	this->m_imageWidth = w;
 	this->m_imageHeight = h;
 	this->m_imageRGB = new wxImage(this->m_imageWidth, this->m_imageHeight, this->m_myImage, true);
+	this->img_load = true;
 }
 
 int cCanvas::getWidth()
@@ -79,9 +81,9 @@ unsigned char* cCanvas::ToGray() // testing...
 {
 	// generar un buffer que guarda los nuevos valores, y retornar eso, para asi crear una nueva ventana
 	
-	if (this->getformat() == (wxString)"RGB")
+	if (this->getformat() == (wxString)"RGB" || this->getformat() == (wxString)"RGBA")
 	{
-		wxMessageBox(wxT("RGB to gray"));
+		//wxMessageBox(wxT("RGB to gray"));
 		unsigned char* temp = (unsigned char*)malloc(m_imageWidth * m_imageHeight * 3);
 		int long pixels = m_imageHeight * m_imageWidth;
 		for (int i = 0; i < pixels; ++i)
@@ -97,19 +99,14 @@ unsigned char* cCanvas::ToGray() // testing...
 		return temp;
 		
 	}
-	else if (this->getformat() == (wxString)"RGBA")
-	{
-		//wxMessageBox(wxT("RGBA to gray"));
-		return this->m_myImage;
-	}
 	else if (this->getformat() == (wxString)"GRAY")
 	{
-		//wxMessageBox(wxT("Already Gray"));
+		wxMessageBox(wxT("Already Gray"));
 		return nullptr;
 	}
 	else
 	{
-		//wxMessageBox(wxT("Not implemented..."));
+		wxMessageBox(wxT("Not implemented..."));
 		return nullptr;
 	}
 	
@@ -141,6 +138,17 @@ wxString cCanvas::getformat()
 	return (wxString)"GRAY";
 
 	
+}
+void cCanvas::saveImage(wxString filename)
+{
+	bool b;
+
+	wxImage* tempImage = new wxImage(this->m_imageWidth, this->m_imageHeight, this->m_myImage, true); // lend my image buffer...
+	b = tempImage->SaveFile(filename);
+	delete(tempImage);		// buffer not needed any more
+
+	if (!b)
+		wxMessageBox(wxT("A problem occured during saving"));
 }
 void cCanvas::LoadImage()
 {

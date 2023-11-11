@@ -4,7 +4,7 @@
 #include "wx/wx.h"
 #include "cMain.h"
 
-
+// IMPLEMENTED
 
 class cApp : public wxApp
 {

@@ -5,6 +5,12 @@
 #include "wx/dcmemory.h"
 #include "wx/dcbuffer.h"
 
+
+// add a general function for convert that can iterate in the image an given a parameter (the format), apply that format
+// conver(RGB,HSL,HSV,GRAY)
+
+
+
 // canvas in wich wee can edite the sprite
 class cCanvas : public wxHVScrolledWindow
 {
@@ -14,8 +20,9 @@ public:
 	int getWidth();
 	int getHeight();
 	~cCanvas();
-	wxString fileName; // file name of the image
+	wxString fileName; // file name of the image // i can handle better this
 	wxString fileFormat; // format of the file 
+	bool img_load; // if theres is an image loaded
 
 private: 
 	int m_nPixelSize = 8; // for the slider
@@ -34,7 +41,8 @@ public:
 	void OnPaint(wxPaintEvent& event); // for init the draw context                                                    //
 	void OnDraw(wxDC& dc); // actually drawing  
 	unsigned char* ToGray();// return the gray format of the image
-	wxString getformat(); // returns the format of the image                                                           //
+	wxString getformat(); // returns the format of the image       
+	void saveImage(wxString filename);//
 	//-------------------------------------------------------------------------------------------------------------------
 	
 	void setPixelSize(int p); // for the slider
