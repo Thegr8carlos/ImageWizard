@@ -3,6 +3,7 @@
 #pragma once
 #include "wx/wx.h"
 #include "cMain.h"
+#include "Histogram.h"
 
 // IMPLEMENTED
 

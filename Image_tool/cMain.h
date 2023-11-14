@@ -27,10 +27,13 @@ private:
 	void ToHSL(wxCommandEvent& event); // not yet ...    //
 	//------------------------------------------------------
 
+
+
 	// APP HANDLERS-----------------
 	void InMenuOpenNew(wxCommandEvent& event);// Implemented
 	void InMenuSave(wxCommandEvent& event);// Implemented
 	void InMenuExit(wxCommandEvent& event);// Implemented
+	void InInfo(wxCommandEvent& event);
 	// ------------------------------------
 	wxDECLARE_EVENT_TABLE();
 };

@@ -1,8 +1,8 @@
 #include "cMain.h"
 #include "cEditorFrame.h"
+#include "Histogram.h"
 // our implementation of the GUI
 
-// you can fix a better way to open a new image
 
 
 wxBEGIN_EVENT_TABLE(cMain, wxMDIParentFrame)
@@ -10,6 +10,7 @@ wxBEGIN_EVENT_TABLE(cMain, wxMDIParentFrame)
 EVT_MENU(1001, cMain::InMenuOpenNew)
 EVT_MENU(1002, cMain::InMenuSave)
 EVT_MENU(1003, cMain::InMenuExit)
+EVT_MENU(1004, cMain::InInfo)
 EVT_MENU(2001, cMain::ToGray)
 EVT_MENU(2002, cMain::ToRGB)
 EVT_MENU(2003, cMain::ToHSV)
@@ -26,6 +27,7 @@ cMain::cMain() : wxMDIParentFrame(nullptr, wxID_ANY, "Image Wizard", wxPoint(30,
 	wxMenu* menuFile = new wxMenu();
 	menuFile->Append(1001, "OpenNew");
 	menuFile->Append(1002, "Save Image");
+	menuFile->Append(1004, "Info image");
 	menuFile->Append(1003, "Exit");
 	// ading the menu for the instance of the menuBar [ File[ New[1001], Open[1002], Save[1003], Exit[1004] ] ]
 	menuBar->Append(menuFile, "File");
@@ -121,5 +123,24 @@ void cMain::InMenuSave(wxCommandEvent& event)
 void cMain::InMenuExit(wxCommandEvent& event)
 {
 	Close();
+	event.Skip();
+}
+
+void cMain::InInfo(wxCommandEvent& event)
+{
+	wxMDIChildFrame* child = this->GetActiveChild();
+	if (child == nullptr)
+	{
+		wxMessageBox(wxT("You must open an image to see the info"));
+		event.Skip();
+		return;
+	}
+	cEditorFrame* mychild = wxDynamicCast(child, cEditorFrame);
+	Histogram* h = mychild->getCanvas()->getHist();
+	cEditorFrame* testing = new cEditorFrame(this, h);
+	testing->Refresh();
+	testing->Update();
+	testing->Show();
+	// nuevo constructor dado un unsigned char
 	event.Skip();
 }

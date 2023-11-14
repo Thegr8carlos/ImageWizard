@@ -4,7 +4,7 @@
 #include "wx/dcclient.h"
 #include "wx/dcmemory.h"
 #include "wx/dcbuffer.h"
-
+#include "Histogram.h"
 
 // add a general function for convert that can iterate in the image an given a parameter (the format), apply that format
 // conver(RGB,HSL,HSV,GRAY)
@@ -17,21 +17,22 @@ class cCanvas : public wxHVScrolledWindow
 public: 
 	cCanvas(wxWindow* parent, wxString filename);
 	cCanvas(wxWindow* parent, unsigned char* data, int w, int h);
+	cCanvas(wxWindow* parent, Histogram* h);
 	int getWidth();
 	int getHeight();
 	~cCanvas();
 	wxString fileName; // file name of the image // i can handle better this
 	wxString fileFormat; // format of the file 
 	bool img_load; // if theres is an image loaded
-
+	Histogram* hist = nullptr;
+	
 private: 
 	int m_nPixelSize = 8; // for the slider
-
 	//----- Image variables---------------------------------------------------------------------
 	int m_imageWidth;                                                                         //
 	int m_imageHeight;                                                                        //
 	wxBitmap m_imageBitmap;	// used to display the image                                      //
-	wxImage* m_imageRGB;		// used to load the image                                     //
+	wxImage* m_imageRGB = nullptr;		// used to load the image                                     //
 	unsigned char* m_myImage = nullptr;	// used to process the image (raw data) pixels in 1d  //
 	//-----------------------------------------------------------------------------------------
 public:
@@ -43,6 +44,8 @@ public:
 	unsigned char* ToGray();// return the gray format of the image
 	wxString getformat(); // returns the format of the image       
 	void saveImage(wxString filename);//
+	Histogram* getHist();
+	
 	//-------------------------------------------------------------------------------------------------------------------
 	
 	void setPixelSize(int p); // for the slider

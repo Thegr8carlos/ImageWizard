@@ -13,6 +13,7 @@ wxEND_EVENT_TABLE()
 		n_StatusBar = this->CreateStatusBar(2, wxSTB_DEFAULT_STYLE, wxID_ANY);
 		zoomSlider = new wxSlider(n_StatusBar, 20001, 8, 1, 32);
 		this->SetSize(n_canvas->getWidth(), n_canvas->getHeight());
+		
 	}
 
 cEditorFrame::cEditorFrame(wxMDIParentFrame* parent, unsigned char* data, wxString prevFile,int w, int h) : wxMDIChildFrame(parent, wxID_ANY, prevFile+"Gray", wxDefaultPosition, wxSize(w, h))
@@ -20,8 +21,13 @@ cEditorFrame::cEditorFrame(wxMDIParentFrame* parent, unsigned char* data, wxStri
 	n_canvas = new cCanvas(this, data,w,h); // Nuevo constructor de canvas dado un unsigned
 	n_StatusBar = this->CreateStatusBar(2, wxSTB_DEFAULT_STYLE, wxID_ANY);
 	zoomSlider = new wxSlider(n_StatusBar, 20001, 8, 1, 32);
+	wxMenuBar* existingMenuBar = parent->GetMenuBar();
+	
 }
-
+cEditorFrame::cEditorFrame(wxMDIParentFrame* parent, Histogram* h) : wxMDIChildFrame(parent, wxID_ANY, "Histogram")
+{
+	n_canvas = new cCanvas(this, h);
+}
 cEditorFrame::~cEditorFrame()
 {
 	// maybe manage all the files and delete them orr maaybe no jeje
@@ -31,6 +37,7 @@ cCanvas* cEditorFrame::getCanvas()
 {
 	return this->n_canvas;
 }
+
 
 
 void cEditorFrame::OnZoomChange(wxCommandEvent& event)
