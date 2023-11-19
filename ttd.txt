@@ -1,0 +1,7 @@
+# Things to do.
+- Implementar los destructores y tambien comprobar que no haya filtrados de memoria
+- Implementar una manera de manejar las coordenadas en el vector de pixeles de 1d
+- Implementar el primer modulo de ecualizaciones o cambios de formato
+- formato para kernels
+- Agregar eigen para el manejo de vectores o procesos rapidos 
+- agregar Multithreading in C++ std::thread thread_object (callable); 

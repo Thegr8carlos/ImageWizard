@@ -1,4 +1,5 @@
 # Things to do.
-- Implementar leer imagenes(cualquier formato) usando opencv? o buscar alguna manera de aceptar cualquier formato
-- implementar la logica para getActivechild en wxwidgets y asi se apliquen las funciones a imagenes
-- como implementar para mosstrar las imagenes en cada nueva ventana 
+- Implementar los destructores y tambien comprobar que no haya filtrados de memoria
+- Implementar una manera de manejar las coordenadas en el vector de pixeles de 1d
+- Implementar el primer modulo de ecualizaciones o cambios de formato
+- formato para kernels 
