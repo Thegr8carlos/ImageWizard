@@ -7,3 +7,7 @@ Histogram::Histogram(long int max, long int* fr, long int* fg, long int* fb)
 	this->frec_g = fg;
 	this->frec_b = fb;
 }
+
+void Histogram::display(){
+	
+}
